@@ -4,273 +4,252 @@ schema = require('validate');
 
 module.exports = {
   validateStatement: function(statement, cb) {
-    var result, statementSchema, valid;
-    valid = true;
+    var errors, result, statementSchema;
+    console.log("validateStatement");
+    errors = [];
     statementSchema = schema({
       id: {
-        type: 'string',
-        required: false
+        type: 'string'
       },
       actor: {
-        type: 'object',
+        type: "object",
         required: true
       },
       verb: {
-        type: 'object',
+        type: "object",
         required: true
       },
       object: {
-        type: 'object',
+        type: "object",
         required: true
       },
       result: {
-        type: 'object',
-        required: false
+        type: "object"
       },
       context: {
-        type: 'object',
-        required: false
+        type: "object"
       },
       timestamp: {
-        required: false
+        type: "object"
       },
       stored: {
-        type: 'object',
-        required: false
+        type: "object"
       },
       authority: {
-        type: 'object',
-        required: false
+        type: "object"
       },
       version: {
-        required: false
+        type: "string"
       },
       attachments: {
-        required: false
+        type: "object"
       }
     });
     result = statementSchema.validate(statement);
     if (result.errors.length > 0) {
-      valid = false;
+      errors = result.errors;
     }
-    if (valid) {
-      if (!(statement.id.length > 0)) {
-        valid = false;
+    if (!errors.length) {
+      if ((statement.id != null) && statement.id.length === 0) {
+        errors.push("statement id has no length");
       }
-      if (!validateActor(statement.actor)) {
-        valid = false;
-      }
-      if (!validateVerb(statement.verb)) {
-        valid = false;
-      }
-      if (!validateObject(statement.object)) {
-        valid = false;
-      }
-      if (statement.result != null) {
-        if (!validateResult(statement.result)) {
-          valid = false;
-        }
-      }
+      this._concatErrors(this.validateActor(statement.actor), errors, "invalid statement actor");
+      this._concatErrors(this.validateVerb(statement.verb), errors, "invalid statement verb");
+      this._concatErrors(this.validateObject(statement.object), errors, "invalid statement object");
       if (statement.context != null) {
-        if (!validateContext(statement)) {
-          valid = false;
-        }
+        this._concatErrors(this.validateContext(statement), errors, "invalid statement context");
       }
       if (statement.timestamp != null) {
-        if (!validateISO8601(statement.timestamp)) {
-          valid = false;
-        }
+        this._concatErrors(this.validateISO8601(statement.timestamp), errors, "invalid statement timestamp");
       }
       if (statement.authority != null) {
-        if (!validateAuthority(statement.authority)) {
-          valid = false;
-        }
+        this._concatErrors(this.validateAuthority(statement.authority), errors, "invalid statement authority");
       }
       if (statement.version != null) {
-        if (!validateVersion(statement.version)) {
-          valid = false;
-        }
+        this._concatErrors(this.validateVersion(statement.version), errors, "invalid statement version");
       }
     }
     if (typeof cb === "function") {
-      cb(valid);
+      cb(errors);
     }
-    return valid;
+    return errors;
   },
   validateActor: function(actor, cb) {
-    var agent, result, valid, _i, _len, _ref;
-    valid = true;
+    var agent, errors, result, _i, _len, _ref;
+    console.log("validateActor");
+    errors = [];
     if (actor.objectType === "Group") {
-      result = validateAgent(actor);
-      if (result === false && actor.member.length === 0) {
-        valid = false;
+      errors = this.validateAgent(actor);
+      if (errors.length === 0 && actor.member.length === 0) {
+        errors.push("actor of type Group has 0 members");
       }
       _ref = actor.member;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         agent = _ref[_i];
-        if (!validateAgent(agent)) {
-          valid = false;
-        }
+        this._concatErrors(this.validateAgent(agent, errors, "invalid group agent"));
         if (agent.objectType === "Group") {
-          valid = false;
+          errors.push("actor of type Group must not contain Group Objects");
         }
         if (result) {
           if ((actor.mbox != null) && actor.mbox === agent.mbox) {
-            valid = false;
+            errors.push("Group mbox also used as Agent identifier");
           }
           if ((actor.mbox_sha1sum != null) && actor.mbox_sha1sum === agent.mbox_sha1sum) {
-            valid = false;
+            errors.push("Group mbox_sha1sum also used as Agent identifier");
           }
           if ((actor.openid != null) && actor.openid === agent.openid) {
-            valid = false;
+            errors.push("Group openid also used as Agent identifier");
           }
           if ((actor.account != null) && actor.account === agent.account) {
-            valid = false;
+            errors.push("Group account also used as Agent identifier");
           }
         }
       }
     } else {
-      if (!validateAgent(actor)) {
-        valid = false;
+      result = this.validateAgent(actor);
+      if (result.length !== 0) {
+        errors.push("invalid agent");
+        errors = errors.concat(result);
       }
     }
     if (typeof cb === "function") {
-      cb(valid);
+      cb(errors);
     }
-    return valid;
+    return errors;
   },
   validateAgent: function(agent, cb) {
-    var IFICount, agentSchema, result, valid;
-    valid = true;
+    var IFICount, agentSchema, errors, result;
+    console.log("validateAgent");
+    errors = [];
     agentSchema = schema({
       objectType: {
-        type: 'string',
-        required: false
+        type: 'string'
       },
       name: {
-        type: 'string',
-        required: false
+        type: 'string'
       },
       mbox: {
         type: 'string',
-        required: false,
-        match: _regexes.email
+        match: this._regexes.MBOX
       },
       mbox_sha1sum: {
         type: 'string',
-        required: false,
-        match: _regexes.SHA1
+        match: this._regexes.SHA1
       },
       openid: {
-        type: 'string',
-        required: false
+        type: 'string'
       },
       account: {
-        required: false
+        type: 'string'
       }
     });
-    result = statementSchema.validate(agent);
+    result = agentSchema.validate(agent);
     if (result.errors.length > 0) {
-      valid = false;
+      errors = result.errors;
     }
     IFICount = 0;
-    if (statement.actor.mbox != null) {
+    if (agent.mbox != null) {
       IFICount++;
     }
-    if (statement.actor.mbox_sha1sum != null) {
+    if (agent.mbox_sha1sum != null) {
       IFICount++;
     }
-    if (statement.actor.openid != null) {
+    if (agent.openid != null) {
       IFICount++;
     }
-    if (statement.actor.account != null) {
+    if (agent.account != null) {
       IFICount++;
     }
     if (IFICount !== 1) {
-      valid = false;
+      errors.push("Agent must be identified by exactly one IFI");
     }
     if (typeof cb === "function") {
-      cb(valid);
+      cb(errors);
     }
-    return valid;
+    return errors;
   },
   validateVerb: function(verb, cb) {
-    var result, valid, verbSchema;
+    var errors, result, valid, verbSchema;
+    console.log("validateVerb");
+    errors = [];
     verbSchema = schema({
       id: {
         type: 'string',
         required: true
       },
       display: {
-        required: false
+        type: "object"
       }
     });
     result = verbSchema.validate(verb);
     valid = result.errors.length === 0;
-    if (!validateLanguageMap(verb.display)) {
-      valid = false;
+    if (!this.validateLanguageMap(verb.display)) {
+      errors.push("TODO: error description");
     }
     if (typeof cb === "function") {
-      cb(valid);
+      cb(errors);
     }
-    return valid;
+    return errors;
   },
   validateLanguageMap: function(map, cb) {
-    var key, valid, value;
-    valid = true;
+    var errors, key, value;
+    console.log("validateLanguageMap");
+    errors = [];
     for (key in map) {
       value = map[key];
-      if (!RFC5646.test(key)) {
-        valid = false;
+      if (!this._regexes.RFC5646.test(key)) {
+        errors.push("TODO: error description");
       }
     }
     if (typeof cb === "function") {
-      cb(valid);
+      cb(errors);
     }
-    return valid;
+    return errors;
   },
   validateObject: function(object, cb) {
-    var valid;
-    valid = true;
+    var errors;
+    console.log("validateObject");
+    errors = [];
     if (object.objectType === "Agent" || object.objectType === "Group") {
       if (!validateActor(object)) {
-        valid = false;
+        errors.push("TODO: error description");
       }
     } else if (object.objectType === "StatementRef") {
       if (object.id == null) {
-        valid = false;
+        errors.push("TODO: error description");
       }
     } else if (object.objectType === "SubStatement") {
-      if (!validateStatement(object)) {
-        valid = false;
+      if (!this.validateStatement(object)) {
+        errors.push("TODO: error description");
       }
     } else if (object.objectType === "Activity" || (object.objectType == null)) {
-      if (!validateActivity(object)) {
-        valid = false;
+      if (!this.validateActivity(object)) {
+        errors.push("TODO: error description");
       }
     } else {
-      valid = false;
+      errors.push("TODO: error description");
     }
     if (typeof cb === "function") {
-      cb(valid);
+      cb(errors);
     }
-    return valid;
+    return errors;
   },
   validateActivity: function(activity, cb) {
-    var activitySchema, i, result, valid, _i, _len, _ref;
+    var activitySchema, errors, i, result, valid, _i, _len, _ref;
+    console.log("validateActivity");
+    errors = [];
     activitySchema = schema({
       id: {
         type: 'string',
         required: true
       },
       definition: {
-        required: false,
         name: {
-          type: 'object',
+          type: "object",
           required: false
         },
         description: {
-          type: 'object',
+          type: "object",
           required: false
         },
         type: {
@@ -286,31 +265,31 @@ module.exports = {
           required: false
         },
         correctResponsesPattern: {
-          type: 'object',
+          type: "object",
           required: false
         },
         choices: {
-          type: 'object',
+          type: "object",
           required: false
         },
         scale: {
-          type: 'object',
+          type: "object",
           required: false
         },
         source: {
-          type: 'object',
+          type: "object",
           required: false
         },
         target: {
-          type: 'object',
+          type: "object",
           required: false
         },
         steps: {
-          type: 'object',
+          type: "object",
           required: false
         },
         extensions: {
-          type: 'object',
+          type: "object",
           required: false
         }
       }
@@ -319,189 +298,202 @@ module.exports = {
     valid = result.errors.length === 0;
     if (activity.definition != null) {
       if (activity.definition.name != null) {
-        if (!validateLanguageMap(activity.definition.name)) {
-          valid = false;
+        if (!this.validateLanguageMap(activity.definition.name)) {
+          errors.push("TODO: error description");
         }
       }
       if (activity.definition.description != null) {
-        if (!validateLanguageMap(activity.definition.description)) {
-          valid = false;
+        if (!this.validateLanguageMap(activity.definition.description)) {
+          errors.push("TODO: error description");
         }
       }
       if (activity.definition.type === "http://adlnet.gov/expapi/activities/cmi.interaction") {
         switch (activity.definition.interactionType) {
           case "true-false":
             if (!((activity.definition.correctResponsesPattern != null) && activity.definition.correctResponsesPattern.length > 0)) {
-              valid = false;
+              errors.push("TODO: error description");
             }
             _ref = activity.definition.correctResponsesPattern;
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
               i = _ref[_i];
               if (!(i === "true" || i === "false")) {
-                valid = false;
+                errors.push("TODO: error description");
               }
             }
             break;
           case "choice":
             if (!(activity.definition.correctResponsesPattern.length > 0 && activity.definition.choices.length > 0)) {
-              valid = false;
+              errors.push("TODO: error description");
             }
             break;
           case "fill-in":
             if (!(activity.definition.correctResponsesPattern.length > 0)) {
-              valid = false;
+              errors.push("TODO: error description");
             }
             break;
           case "long-fill-in":
             if (!(activity.definition.correctResponsesPattern.length > 0)) {
-              valid = false;
+              errors.push("TODO: error description");
             }
             break;
           case "matching":
             if (!(activity.definition.correctResponsesPattern.length > 0 && activity.definition.source.length > 0 && activity.definition.target.length > 0 && activity.definition.source.length === activity.definition.target.length)) {
-              valid = false;
+              errors.push("TODO: error description");
             }
             break;
           case "performance":
             if (!(activity.definition.correctResponsesPattern.length > 0 && activity.definition.steps.length > 0)) {
-              valid = false;
+              errors.push("TODO: error description");
             }
             break;
           case "sequencing":
             if (!(activity.definition.correctResponsesPattern.length > 0 && activity.definition.choices.length > 0)) {
-              valid = false;
+              errors.push("TODO: error description");
             }
             break;
           case "likert":
             if (!(activity.definition.correctResponsesPattern.length > 0 && activity.definition.scale.length > 0)) {
-              valid = false;
+              errors.push("TODO: error description");
             }
             break;
           case "numeric":
             if (!(activity.definition.correctResponsesPattern.length > 0)) {
-              valid = false;
+              errors.push("TODO: error description");
             }
             break;
           case "other":
             if (!(activity.definition.correctResponsesPattern.length > 0)) {
-              valid = false;
+              errors.push("TODO: error description");
             }
             break;
           default:
-            valid = false;
+            errors.push("TODO: error description");
         }
       }
     }
     if (typeof cb === "function") {
-      cb(valid);
+      cb(errors);
     }
-    return valid;
+    return errors;
   },
   validateResult: function(result, cb) {
-    var activitySchema, r, valid;
-    activitySchema = schema({
+    var errors, resultSchema;
+    console.log("validateResult");
+    resultSchema = schema({
       score: {
-        type: 'object',
-        required: false,
         scaled: {
-          type: 'number',
-          required: false
+          type: 'number'
         },
         raw: {
-          type: 'number',
-          required: false
+          type: 'number'
         },
         min: {
-          type: 'number',
-          required: false
+          type: 'number'
         },
         max: {
-          type: 'number',
-          required: false
+          type: 'number'
         }
       },
       success: {
-        type: 'boolean',
-        required: false
+        type: 'boolean'
       },
       completion: {
-        type: 'boolean',
-        required: false
+        type: 'boolean'
       },
       response: {
-        type: 'string',
-        required: false
+        type: 'string'
       },
       duration: {
         type: 'string',
-        required: false,
-        match: _regexes.ISO8601
+        match: this._regexes.ISO8601
       },
       extensions: {
-        type: 'object',
-        required: false
+        type: "object"
       }
     });
-    r = resultSchema.validate(result);
-    valid = r.errors.length === 0;
-    if (valid) {
+    errors = resultSchema.validate(result);
+    if (errors.length === 0) {
       if (result.score) {
         if ((result.score.scaled != null) && (result.score.scaled < -1 || result.score.scaled > 1)) {
-          valid = false;
+          errors.push("TODO: error description");
         }
         if ((result.score.min != null) && (result.score.max != null) && result.score.min > result.score.max) {
-          valid = false;
+          errors.push("TODO: error description");
         }
         if ((result.score.raw != null) && (result.score.max != null) && result.score.raw > result.score.max) {
-          valid = false;
+          errors.push("TODO: error description");
         }
         if ((result.score.raw != null) && (result.score.min != null) && result.score.raw < result.score.min) {
-          valid = false;
+          errors.push("TODO: error description");
         }
       }
     }
     if (typeof cb === "function") {
-      cb(valid);
+      cb(errors);
     }
-    return valid;
+    return errors;
   },
   validateISO8601: function(date, cb) {
-    var valid;
-    valid = _regexes.ISO8601.test(date);
-    if (typeof cb === "function") {
-      cb(valid);
+    var errors, valid;
+    console.log("validateISO8601");
+    errors = [];
+    valid = this._regexes.ISO8601.test(date);
+    if (!valid) {
+      errors.push("TODO: error description");
     }
-    return valid;
+    if (typeof cb === "function") {
+      cb(errors);
+    }
+    return errors;
   },
   validateContext: function(statement, cb) {
-    var valid;
-    valid = true;
+    var errors;
+    console.log("validateContext");
+    errors = [];
     if (typeof cb === "function") {
-      cb(valid);
+      cb(errors);
     }
-    return valid;
+    return errors;
   },
   validateVersion: function(version, cb) {
-    var valid;
+    var errors, valid;
+    console.log("validateVersion");
+    errors = [];
     valid = version.indexOf("1.0.") === 0;
-    if (typeof cb === "function") {
-      cb(valid);
+    if (!valid) {
+      errors.push("TODO: error description");
     }
-    return valid;
+    if (typeof cb === "function") {
+      cb(errors);
+    }
+    return errors;
   },
   validateAuthority: function(version, cb) {
-    var valid;
-    valid = true;
+    var errors;
+    console.log("validateAuthority");
+    errors = [];
     if (typeof cb === "function") {
-      cb(valid);
+      cb(errors);
     }
-    return valid;
+    return errors;
+  },
+  _concatErrors: function(result, errors, message) {
+    var error, _i, _len, _results;
+    if (result.length !== 0) {
+      errors.push(message);
+      _results = [];
+      for (_i = 0, _len = result.length; _i < _len; _i++) {
+        error = result[_i];
+        _results.push(errors.push(error));
+      }
+      return _results;
+    }
   },
   _regexes: {
     SHA1: /\b([a-f0-9]{40})\b/,
-    email: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-    ISO8601: /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d)/,
-    RFC5646: /^(((?<language>([A-Za-z]{2,3}(-(?<extlang>[A-Za-z]{3}(-[A-Za-z]{3}){0,2}))?)|[A-Za-z]{4}|[A-Za-z]{5,8})(-(?<script>[A-Za-z]{4}))?(-(?region>[A-Za-z]{2}|[0-9]{3}))?(-(?<variant>[A-Za-z0-9]{5,8}|[0-9][A-Za-z0-9]{3}))*(-(?<extension>[0-9A-WY-Za-wy-z](-[A-Za-z0-9]{2,8}+))*(-(?<privateUse>x(-[A-Za-z0-9]{1,8})+))?)|(?<privateUse>x(-[A-Za-z0-9]{1,8})+)|(?<grandfathered>(en-GB-oed|i-ami|i-bnn|i-defaulti-enochian|i-hak|i-klingon|i-lux|i-mingo|i-navajo|i-pwn|i-tao|i-tay|i-tsu|sgn-BE-FR|sgn-BE-NL|sgn-CH-DE)|(art-lojban|cel-aulish|no-bok|no-nyn|zh-guoyu|zh-hakka|zh-min|zh-min-nan|zh-xiang)))$/
+    MBOX: /^mailto\:((([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$)/,
+    RFC5646: /^(((([A-Za-z]{2,3}(-([A-Za-z]{3}(-[A-Za-z]{3}){0,2}))?)|[A-Za-z]{4}|[A-Za-z]{5,8})(-([A-Za-z]{4}))?(-([A-Za-z]{2}|[0-9]{3}))?(-([A-Za-z0-9]{5,8}|[0-9][A-Za-z0-9]{3}))(-(0-9A-WY-Za-wy-z+))(-(x(-[A-Za-z0-9]{1,8})+))?)|(x(-[A-Za-z0-9]{1,8})+)|((en-GB-oed|i-ami|i-bnn|i-default|i-enochian|i-hak|i-klingon|i-lux|i-mingo|i-navajo|i-pwn|i-tao|i-tay|i-tsu|sgn-BE-FR|sgn-BE-NL|sgn-CH-DE)|(art-lojban|cel-gaulish|no-bok|no-nyn|zh-guoyu|zh-hakka|zh-min|zh-min-nan|zh-xiang)))$/,
+    ISO8601: /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d)/
   }
 };
 

@@ -19,14 +19,22 @@ module.exports = (grunt)->
       options:
         force:true
         max_line_length:
-          value:120
+          value:1200
+
+    mochaTest:
+      src: ['test/**/*.coffee']
+      options:
+        require: 'coffee-script/register'
+
 
   #load plugins
   grunt.loadNpmTasks 'grunt-coffeelint'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
+  grunt.loadNpmTasks 'grunt-mocha-test'
 
   #register tasks
   #compund tasks
   
   #main tasks to run
   grunt.registerTask 'build', ['coffee', 'coffeelint']
+  grunt.registerTask 'test', ['build', 'mochaTest']
