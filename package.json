@@ -6,11 +6,21 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": "",
+  "homepage": "http://github.com/ricick/tincan-validator",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ricick/tincan-validator.git"
+  },
+  "bugs": {
+    "url": "http://github.com/ricick/tincan-validator/issues"
+  },
   "keywords": [
     "tincan"
   ],
-  "author": "Phil Douglas",
+  "author": {
+    "name": "Phil Douglas",
+    "email": "ricick@gmail.com"
+  },
   "license": "BSD",
   "devDependencies": {
     "grunt": "~0.4.2",
