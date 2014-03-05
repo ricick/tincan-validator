@@ -5,7 +5,6 @@ schema = require('validate');
 module.exports = {
   validateStatement: function(statement, cb) {
     var errors, result, statementSchema;
-    console.log("validateStatement");
     errors = [];
     statementSchema = schema({
       id: {
@@ -30,10 +29,12 @@ module.exports = {
         type: "object"
       },
       timestamp: {
-        type: "object"
+        type: "string",
+        match: this._regexes.ISO8601
       },
       stored: {
-        type: "object"
+        type: "string",
+        match: this._regexes.ISO8601
       },
       authority: {
         type: "object"
@@ -76,7 +77,6 @@ module.exports = {
   },
   validateActor: function(actor, cb) {
     var agent, errors, result, _i, _len, _ref;
-    console.log("validateActor");
     errors = [];
     if (actor.objectType === "Group") {
       errors = this.validateAgent(actor);
@@ -86,7 +86,7 @@ module.exports = {
       _ref = actor.member;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         agent = _ref[_i];
-        this._concatErrors(this.validateAgent(agent, errors, "invalid group agent"));
+        this._concatErrors(this.validateAgent(agent), errors, "invalid group agent");
         if (agent.objectType === "Group") {
           errors.push("actor of type Group must not contain Group Objects");
         }
@@ -119,7 +119,6 @@ module.exports = {
   },
   validateAgent: function(agent, cb) {
     var IFICount, agentSchema, errors, result;
-    console.log("validateAgent");
     errors = [];
     agentSchema = schema({
       objectType: {
@@ -140,7 +139,7 @@ module.exports = {
         type: 'string'
       },
       account: {
-        type: 'string'
+        type: 'object'
       }
     });
     result = agentSchema.validate(agent);
@@ -170,7 +169,6 @@ module.exports = {
   },
   validateVerb: function(verb, cb) {
     var errors, result, valid, verbSchema;
-    console.log("validateVerb");
     errors = [];
     verbSchema = schema({
       id: {
@@ -193,7 +191,6 @@ module.exports = {
   },
   validateLanguageMap: function(map, cb) {
     var errors, key, value;
-    console.log("validateLanguageMap");
     errors = [];
     for (key in map) {
       value = map[key];
@@ -208,7 +205,6 @@ module.exports = {
   },
   validateObject: function(object, cb) {
     var errors;
-    console.log("validateObject");
     errors = [];
     if (object.objectType === "Agent" || object.objectType === "Group") {
       if (!validateActor(object)) {
@@ -236,7 +232,6 @@ module.exports = {
   },
   validateActivity: function(activity, cb) {
     var activitySchema, errors, i, result, valid, _i, _len, _ref;
-    console.log("validateActivity");
     errors = [];
     activitySchema = schema({
       id: {
@@ -378,7 +373,6 @@ module.exports = {
   },
   validateResult: function(result, cb) {
     var errors, resultSchema;
-    console.log("validateResult");
     resultSchema = schema({
       score: {
         scaled: {
@@ -435,7 +429,6 @@ module.exports = {
   },
   validateISO8601: function(date, cb) {
     var errors, valid;
-    console.log("validateISO8601");
     errors = [];
     valid = this._regexes.ISO8601.test(date);
     if (!valid) {
@@ -448,7 +441,6 @@ module.exports = {
   },
   validateContext: function(statement, cb) {
     var errors;
-    console.log("validateContext");
     errors = [];
     if (typeof cb === "function") {
       cb(errors);
@@ -457,7 +449,6 @@ module.exports = {
   },
   validateVersion: function(version, cb) {
     var errors, valid;
-    console.log("validateVersion");
     errors = [];
     valid = version.indexOf("1.0.") === 0;
     if (!valid) {
@@ -470,7 +461,6 @@ module.exports = {
   },
   validateAuthority: function(version, cb) {
     var errors;
-    console.log("validateAuthority");
     errors = [];
     if (typeof cb === "function") {
       cb(errors);
@@ -490,7 +480,7 @@ module.exports = {
     }
   },
   _regexes: {
-    SHA1: /\b([a-f0-9]{40})\b/,
+    SHA1: /[0-9a-f]{5,40}/,
     MBOX: /^mailto\:((([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$)/,
     RFC5646: /^(((([A-Za-z]{2,3}(-([A-Za-z]{3}(-[A-Za-z]{3}){0,2}))?)|[A-Za-z]{4}|[A-Za-z]{5,8})(-([A-Za-z]{4}))?(-([A-Za-z]{2}|[0-9]{3}))?(-([A-Za-z0-9]{5,8}|[0-9][A-Za-z0-9]{3}))(-(0-9A-WY-Za-wy-z+))(-(x(-[A-Za-z0-9]{1,8})+))?)|(x(-[A-Za-z0-9]{1,8})+)|((en-GB-oed|i-ami|i-bnn|i-default|i-enochian|i-hak|i-klingon|i-lux|i-mingo|i-navajo|i-pwn|i-tao|i-tay|i-tsu|sgn-BE-FR|sgn-BE-NL|sgn-CH-DE)|(art-lojban|cel-gaulish|no-bok|no-nyn|zh-guoyu|zh-hakka|zh-min|zh-min-nan|zh-xiang)))$/,
     ISO8601: /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d)/

@@ -2,7 +2,7 @@ schema = require 'validate'
 module.exports =
   validateStatement:(statement, cb)->
     #console.log "@", @
-    console.log "validateStatement"
+    #console.log "validateStatement"
     errors = []
 
     statementSchema = schema
@@ -22,9 +22,11 @@ module.exports =
       context:
         type:"object"
       timestamp:
-        type:"object"
+        type:"string"
+        match:@_regexes.ISO8601
       stored:
-        type:"object"
+        type:"string"
+        match:@_regexes.ISO8601
       authority:
         type:"object"
       version:
@@ -53,7 +55,7 @@ module.exports =
     errors
 
   validateActor:(actor, cb)->
-    console.log "validateActor"
+    #console.log "validateActor"
     errors = []
     #A Group represents a collection of Agents and can be used in most of the same situations an Agent can be used. There are two types of Groups, anonymous and identified.
     if actor.objectType is "Group"
@@ -62,7 +64,7 @@ module.exports =
       #An Anonymous Group MUST include a 'member' property listing constituent Agents.
       errors.push "actor of type Group has 0 members" if errors.length is 0 and actor.member.length is 0
       for agent in actor.member
-        @_concatErrors @validateAgent agent, errors, "invalid group agent"
+        @_concatErrors @validateAgent(agent), errors, "invalid group agent"
 
         #An Anonymous Group MUST NOT contain Group Objects in the 'member' property
         #An Identified Group MUST NOT contain Group Objects in the 'member' property.
@@ -82,7 +84,7 @@ module.exports =
     errors
 
   validateAgent:(agent, cb)->
-    console.log "validateAgent"
+    #console.log "validateAgent"
     errors = []
 
     agentSchema = schema
@@ -99,7 +101,7 @@ module.exports =
       openid:
         type: 'string'
       account:
-        type: 'string'
+        type: 'object'
     result = agentSchema.validate agent
     errors = result.errors if result.errors.length > 0
     #An Agent MUST be identified by one (1) of the four types of Inverse Functional Identifiers (see 4.1.2.3 Inverse Functional Identifier);
@@ -115,7 +117,7 @@ module.exports =
     errors
 
   validateVerb:(verb,cb)->
-    console.log "validateVerb"
+    #console.log "validateVerb"
     errors = []
     verbSchema = schema
       id:
@@ -130,7 +132,7 @@ module.exports =
     errors
 
   validateLanguageMap:(map, cb)->
-    console.log "validateLanguageMap"
+    #console.log "validateLanguageMap"
     errors = []
     # language map is a dictionary where the key is a  RFC 5646 Language Tag, and the value is an string in the language specified in the tag. This map should be populated as fully as possible based on the knowledge of the string in question in different languages
     for key, value of map
@@ -140,7 +142,7 @@ module.exports =
 
 
   validateObject:(object,cb)->
-    console.log "validateObject"
+    #console.log "validateObject"
     errors = []
     if object.objectType is "Agent" or object.objectType is "Group"
       errors.push "TODO: error description" unless validateActor object
@@ -157,7 +159,7 @@ module.exports =
     errors
 
   validateActivity:(activity, cb)->
-    console.log "validateActivity"
+    #console.log "validateActivity"
     errors = []
     activitySchema = schema
       id:
@@ -238,7 +240,7 @@ module.exports =
     errors
   
   validateResult:(result, cb)->
-    console.log "validateResult"
+    #console.log "validateResult"
     resultSchema = schema
       score:
         scaled:
@@ -271,7 +273,7 @@ module.exports =
     errors
 
   validateISO8601:(date, cb)->
-    console.log "validateISO8601"
+    #console.log "validateISO8601"
     errors = []
     valid = @_regexes.ISO8601.test date
     errors.push "TODO: error description" unless valid
@@ -279,13 +281,13 @@ module.exports =
     errors
 
   validateContext:(statement, cb)->
-    console.log "validateContext"
+    #console.log "validateContext"
     errors = [] #TODO
     cb?(errors)
     errors
 
   validateVersion:(version, cb)->
-    console.log "validateVersion"
+    #console.log "validateVersion"
     errors = []
     valid = version.indexOf("1.0.") is 0
     errors.push "TODO: error description" unless valid
@@ -293,7 +295,7 @@ module.exports =
     errors
 
   validateAuthority:(version, cb)->
-    console.log "validateAuthority"
+    #console.log "validateAuthority"
     errors = [] #TODO
     cb?(errors)
     errors
@@ -305,7 +307,7 @@ module.exports =
         errors.push error
 
   _regexes:
-    SHA1: /\b([a-f0-9]{40})\b/
+    SHA1: /[0-9a-f]{5,40}/
     MBOX: /^mailto\:((([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$)/
     RFC5646: /^(((([A-Za-z]{2,3}(-([A-Za-z]{3}(-[A-Za-z]{3}){0,2}))?)|[A-Za-z]{4}|[A-Za-z]{5,8})(-([A-Za-z]{4}))?(-([A-Za-z]{2}|[0-9]{3}))?(-([A-Za-z0-9]{5,8}|[0-9][A-Za-z0-9]{3}))(-(0-9A-WY-Za-wy-z+))(-(x(-[A-Za-z0-9]{1,8})+))?)|(x(-[A-Za-z0-9]{1,8})+)|((en-GB-oed|i-ami|i-bnn|i-default|i-enochian|i-hak|i-klingon|i-lux|i-mingo|i-navajo|i-pwn|i-tao|i-tay|i-tsu|sgn-BE-FR|sgn-BE-NL|sgn-CH-DE)|(art-lojban|cel-gaulish|no-bok|no-nyn|zh-guoyu|zh-hakka|zh-min|zh-min-nan|zh-xiang)))$/
     ISO8601: /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d)/

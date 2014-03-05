@@ -26,3 +26,5 @@ describe "validateStatement", ->
     testValid "./mocks/statement-valid-simple.json", true
   it 'should return no errors for attempted statement', ()->
     testValid "./mocks/statement-valid-attempted.json", true
+  it 'should return no errors for long statement', ()->
+    testValid "./mocks/statement-valid-long.json", true
