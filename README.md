@@ -1,4 +1,5 @@
 # Tincan Validator
+Validates Tincan API statements, activities, agents, and states
 
 ## Installation
 ```
