@@ -1,0 +1,23 @@
+{
+  "name": "tincan-validator",
+  "version": "0.0.0",
+  "description": "Validates tincan statements, activities, agents, and states",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "keywords": [
+    "tincan"
+  ],
+  "author": "Phil Douglas",
+  "license": "BSD",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-coffeelint": "0.0.8",
+    "grunt-contrib-coffee": "~0.10.1"
+  },
+  "dependencies": {
+    "validate": "~2.1.2"
+  }
+}
