@@ -1,0 +1,191 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'c:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'c:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'publish' ]
+2 info using npm@1.2.18
+3 info using node@v0.10.5
+4 verbose publish [ '.' ]
+5 verbose read json c:\Users\Phil\projects\2and2-lms-backend\node_modules\tincan-validator\package.json
+6 warn package.json tincan-validator@0.0.0 No README.md file found!
+7 verbose cache add [ '.', null ]
+8 verbose cache add name=undefined spec="." args=[".",null]
+9 verbose parsed url { protocol: null,
+9 verbose parsed url   slashes: null,
+9 verbose parsed url   auth: null,
+9 verbose parsed url   host: null,
+9 verbose parsed url   port: null,
+9 verbose parsed url   hostname: null,
+9 verbose parsed url   hash: null,
+9 verbose parsed url   search: null,
+9 verbose parsed url   query: null,
+9 verbose parsed url   pathname: '.',
+9 verbose parsed url   path: '.',
+9 verbose parsed url   href: '.' }
+10 silly lockFile 3a52ce78- .
+11 verbose lock . C:\Users\Phil\AppData\Roaming\npm-cache\3a52ce78-.lock
+12 verbose read json package.json
+13 verbose tar pack [ 'C:\\Users\\Phil\\AppData\\Local\\Temp\\npm-6232\\1394005808721-0.5297546989750117\\tmp.tgz',
+13 verbose tar pack   '.' ]
+14 verbose tarball C:\Users\Phil\AppData\Local\Temp\npm-6232\1394005808721-0.5297546989750117\tmp.tgz
+15 verbose folder .
+16 info prepublish tincan-validator@0.0.0
+17 silly lockFile 3a52ce78- .
+18 verbose lock . C:\Users\Phil\AppData\Roaming\npm-cache\3a52ce78-.lock
+19 silly lockFile 7acc1bc6-08721-0-5297546989750117-tmp-tgz C:\Users\Phil\AppData\Local\Temp\npm-6232\1394005808721-0.5297546989750117\tmp.tgz
+20 verbose lock C:\Users\Phil\AppData\Local\Temp\npm-6232\1394005808721-0.5297546989750117\tmp.tgz C:\Users\Phil\AppData\Roaming\npm-cache\7acc1bc6-08721-0-5297546989750117-tmp-tgz.lock
+21 silly lockFile 3a52ce78- .
+22 silly lockFile 3a52ce78- .
+23 silly lockFile 7acc1bc6-08721-0-5297546989750117-tmp-tgz C:\Users\Phil\AppData\Local\Temp\npm-6232\1394005808721-0.5297546989750117\tmp.tgz
+24 silly lockFile 7acc1bc6-08721-0-5297546989750117-tmp-tgz C:\Users\Phil\AppData\Local\Temp\npm-6232\1394005808721-0.5297546989750117\tmp.tgz
+25 verbose tar unpack C:\Users\Phil\AppData\Local\Temp\npm-6232\1394005808721-0.5297546989750117\tmp.tgz
+26 silly lockFile 26b4e5ac-08721-0-5297546989750117-package C:\Users\Phil\AppData\Local\Temp\npm-6232\1394005808721-0.5297546989750117\package
+27 verbose lock C:\Users\Phil\AppData\Local\Temp\npm-6232\1394005808721-0.5297546989750117\package C:\Users\Phil\AppData\Roaming\npm-cache\26b4e5ac-08721-0-5297546989750117-package.lock
+28 silly lockFile 7acc1bc6-08721-0-5297546989750117-tmp-tgz C:\Users\Phil\AppData\Local\Temp\npm-6232\1394005808721-0.5297546989750117\tmp.tgz
+29 verbose lock C:\Users\Phil\AppData\Local\Temp\npm-6232\1394005808721-0.5297546989750117\tmp.tgz C:\Users\Phil\AppData\Roaming\npm-cache\7acc1bc6-08721-0-5297546989750117-tmp-tgz.lock
+30 silly gunzTarPerm modes [ '755', '644' ]
+31 silly gunzTarPerm extractEntry package.json
+32 silly gunzTarPerm modified mode [ 'package.json', 438, 420 ]
+33 silly gunzTarPerm extractEntry .npmignore
+34 silly gunzTarPerm modified mode [ '.npmignore', 438, 420 ]
+35 silly gunzTarPerm extractEntry README.md
+36 silly gunzTarPerm modified mode [ 'README.md', 438, 420 ]
+37 silly gunzTarPerm extractEntry bin/index.js
+38 silly gunzTarPerm modified mode [ 'bin/index.js', 438, 420 ]
+39 silly gunzTarPerm extractEntry bin/index.js.map
+40 silly gunzTarPerm modified mode [ 'bin/index.js.map', 438, 420 ]
+41 silly gunzTarPerm extractEntry Gruntfile.coffee
+42 silly gunzTarPerm modified mode [ 'Gruntfile.coffee', 438, 420 ]
+43 silly gunzTarPerm extractEntry src/index.coffee
+44 silly gunzTarPerm modified mode [ 'src/index.coffee', 438, 420 ]
+45 verbose read json C:\Users\Phil\AppData\Local\Temp\npm-6232\1394005808721-0.5297546989750117\package\package.json
+46 silly lockFile 26b4e5ac-08721-0-5297546989750117-package C:\Users\Phil\AppData\Local\Temp\npm-6232\1394005808721-0.5297546989750117\package
+47 silly lockFile 26b4e5ac-08721-0-5297546989750117-package C:\Users\Phil\AppData\Local\Temp\npm-6232\1394005808721-0.5297546989750117\package
+48 silly lockFile 7acc1bc6-08721-0-5297546989750117-tmp-tgz C:\Users\Phil\AppData\Local\Temp\npm-6232\1394005808721-0.5297546989750117\tmp.tgz
+49 silly lockFile 7acc1bc6-08721-0-5297546989750117-tmp-tgz C:\Users\Phil\AppData\Local\Temp\npm-6232\1394005808721-0.5297546989750117\tmp.tgz
+50 verbose from cache C:\Users\Phil\AppData\Local\Temp\npm-6232\1394005808721-0.5297546989750117\package\package.json
+51 verbose tar pack [ 'C:\\Users\\Phil\\AppData\\Roaming\\npm-cache\\tincan-validator\\0.0.0\\package.tgz',
+51 verbose tar pack   'C:\\Users\\Phil\\AppData\\Local\\Temp\\npm-6232\\1394005808721-0.5297546989750117\\package' ]
+52 verbose tarball C:\Users\Phil\AppData\Roaming\npm-cache\tincan-validator\0.0.0\package.tgz
+53 verbose folder C:\Users\Phil\AppData\Local\Temp\npm-6232\1394005808721-0.5297546989750117\package
+54 silly lockFile 26b4e5ac-08721-0-5297546989750117-package C:\Users\Phil\AppData\Local\Temp\npm-6232\1394005808721-0.5297546989750117\package
+55 verbose lock C:\Users\Phil\AppData\Local\Temp\npm-6232\1394005808721-0.5297546989750117\package C:\Users\Phil\AppData\Roaming\npm-cache\26b4e5ac-08721-0-5297546989750117-package.lock
+56 silly lockFile 358f9a57-ncan-validator-0-0-0-package-tgz C:\Users\Phil\AppData\Roaming\npm-cache\tincan-validator\0.0.0\package.tgz
+57 verbose lock C:\Users\Phil\AppData\Roaming\npm-cache\tincan-validator\0.0.0\package.tgz C:\Users\Phil\AppData\Roaming\npm-cache\358f9a57-ncan-validator-0-0-0-package-tgz.lock
+58 silly lockFile 26b4e5ac-08721-0-5297546989750117-package C:\Users\Phil\AppData\Local\Temp\npm-6232\1394005808721-0.5297546989750117\package
+59 silly lockFile 26b4e5ac-08721-0-5297546989750117-package C:\Users\Phil\AppData\Local\Temp\npm-6232\1394005808721-0.5297546989750117\package
+60 silly lockFile 358f9a57-ncan-validator-0-0-0-package-tgz C:\Users\Phil\AppData\Roaming\npm-cache\tincan-validator\0.0.0\package.tgz
+61 silly lockFile 358f9a57-ncan-validator-0-0-0-package-tgz C:\Users\Phil\AppData\Roaming\npm-cache\tincan-validator\0.0.0\package.tgz
+62 silly lockFile 5da24001-e-tincan-validator-0-0-0-package C:\Users\Phil\AppData\Roaming\npm-cache\tincan-validator\0.0.0\package
+63 verbose lock C:\Users\Phil\AppData\Roaming\npm-cache\tincan-validator\0.0.0\package C:\Users\Phil\AppData\Roaming\npm-cache\5da24001-e-tincan-validator-0-0-0-package.lock
+64 silly lockFile 5da24001-e-tincan-validator-0-0-0-package C:\Users\Phil\AppData\Roaming\npm-cache\tincan-validator\0.0.0\package
+65 silly lockFile 5da24001-e-tincan-validator-0-0-0-package C:\Users\Phil\AppData\Roaming\npm-cache\tincan-validator\0.0.0\package
+66 verbose tar unpack C:\Users\Phil\AppData\Roaming\npm-cache\tincan-validator\0.0.0\package.tgz
+67 silly lockFile 5da24001-e-tincan-validator-0-0-0-package C:\Users\Phil\AppData\Roaming\npm-cache\tincan-validator\0.0.0\package
+68 verbose lock C:\Users\Phil\AppData\Roaming\npm-cache\tincan-validator\0.0.0\package C:\Users\Phil\AppData\Roaming\npm-cache\5da24001-e-tincan-validator-0-0-0-package.lock
+69 silly lockFile 358f9a57-ncan-validator-0-0-0-package-tgz C:\Users\Phil\AppData\Roaming\npm-cache\tincan-validator\0.0.0\package.tgz
+70 verbose lock C:\Users\Phil\AppData\Roaming\npm-cache\tincan-validator\0.0.0\package.tgz C:\Users\Phil\AppData\Roaming\npm-cache\358f9a57-ncan-validator-0-0-0-package-tgz.lock
+71 silly gunzTarPerm modes [ '755', '644' ]
+72 silly gunzTarPerm extractEntry package.json
+73 silly gunzTarPerm modified mode [ 'package.json', 438, 420 ]
+74 silly gunzTarPerm extractEntry .npmignore
+75 silly gunzTarPerm modified mode [ '.npmignore', 438, 420 ]
+76 silly gunzTarPerm extractEntry README.md
+77 silly gunzTarPerm modified mode [ 'README.md', 438, 420 ]
+78 silly gunzTarPerm extractEntry bin/index.js
+79 silly gunzTarPerm modified mode [ 'bin/index.js', 438, 420 ]
+80 silly gunzTarPerm extractEntry bin/index.js.map
+81 silly gunzTarPerm modified mode [ 'bin/index.js.map', 438, 420 ]
+82 silly gunzTarPerm extractEntry Gruntfile.coffee
+83 silly gunzTarPerm modified mode [ 'Gruntfile.coffee', 438, 420 ]
+84 silly gunzTarPerm extractEntry src/index.coffee
+85 silly gunzTarPerm modified mode [ 'src/index.coffee', 438, 420 ]
+86 verbose read json C:\Users\Phil\AppData\Roaming\npm-cache\tincan-validator\0.0.0\package\package.json
+87 silly lockFile 5da24001-e-tincan-validator-0-0-0-package C:\Users\Phil\AppData\Roaming\npm-cache\tincan-validator\0.0.0\package
+88 silly lockFile 5da24001-e-tincan-validator-0-0-0-package C:\Users\Phil\AppData\Roaming\npm-cache\tincan-validator\0.0.0\package
+89 silly lockFile 358f9a57-ncan-validator-0-0-0-package-tgz C:\Users\Phil\AppData\Roaming\npm-cache\tincan-validator\0.0.0\package.tgz
+90 silly lockFile 358f9a57-ncan-validator-0-0-0-package-tgz C:\Users\Phil\AppData\Roaming\npm-cache\tincan-validator\0.0.0\package.tgz
+91 silly shasum updated bytes 7369
+92 info shasum edda82454e25a4333e841f90c2e3a9698e310c01
+92 info shasum C:\Users\Phil\AppData\Roaming\npm-cache\tincan-validator\0.0.0\package.tgz
+93 verbose from cache C:\Users\Phil\AppData\Roaming\npm-cache\tincan-validator\0.0.0\package\package.json
+94 verbose chmod C:\Users\Phil\AppData\Roaming\npm-cache\tincan-validator\0.0.0\package.tgz 644
+95 silly chown skipping for windows C:\Users\Phil\AppData\Roaming\npm-cache\tincan-validator\0.0.0\package.tgz
+96 silly lockFile 3a52ce78- .
+97 silly publish { name: 'tincan-validator',
+97 silly publish   version: '0.0.0',
+97 silly publish   description: 'Validates tincan statements, activities, agents, and states',
+97 silly publish   main: 'index.js',
+97 silly publish   scripts: { test: 'echo "Error: no test specified" && exit 1' },
+97 silly publish   homepage: 'http://github.com/ricick/tincan-validator',
+97 silly publish   repository:
+97 silly publish    { type: 'git',
+97 silly publish      url: 'git://github.com/ricick/tincan-validator.git' },
+97 silly publish   bugs: { url: 'http://github.com/ricick/tincan-validator/issues' },
+97 silly publish   keywords: [ 'tincan' ],
+97 silly publish   author: { name: 'Phil Douglas', email: 'ricick@gmail.com' },
+97 silly publish   license: 'BSD',
+97 silly publish   devDependencies:
+97 silly publish    { grunt: '~0.4.2',
+97 silly publish      'grunt-coffeelint': '0.0.8',
+97 silly publish      'grunt-contrib-coffee': '~0.10.1' },
+97 silly publish   dependencies: { validate: '~2.1.2' },
+97 silly publish   readme: 'ERROR: No README.md file found!',
+97 silly publish   readmeFilename: 'README.md',
+97 silly publish   _id: 'tincan-validator@0.0.0',
+97 silly publish   dist: { shasum: 'edda82454e25a4333e841f90c2e3a9698e310c01' },
+97 silly publish   _from: '.' }
+98 verbose url raw tincan-validator
+99 verbose url resolving [ 'https://registry.npmjs.org/', './tincan-validator' ]
+100 verbose url resolved https://registry.npmjs.org/tincan-validator
+101 info trying registry request attempt 1 at 18:50:19
+102 http PUT https://registry.npmjs.org/tincan-validator
+103 http 201 https://registry.npmjs.org/tincan-validator
+104 verbose url raw tincan-validator
+105 verbose url resolving [ 'https://registry.npmjs.org/', './tincan-validator' ]
+106 verbose url resolved https://registry.npmjs.org/tincan-validator
+107 info trying registry request attempt 1 at 18:50:20
+108 http GET https://registry.npmjs.org/tincan-validator
+109 http 200 https://registry.npmjs.org/tincan-validator
+110 verbose uploading [ 'tincan-validator/-/tincan-validator-0.0.0.tgz/-rev/7-4a033a72501720d2514a9938203c0c7a',
+110 verbose uploading   'C:\\Users\\Phil\\AppData\\Roaming\\npm-cache\\tincan-validator\\0.0.0\\package.tgz' ]
+111 verbose url raw tincan-validator/-/tincan-validator-0.0.0.tgz/-rev/7-4a033a72501720d2514a9938203c0c7a
+112 verbose url resolving [ 'https://registry.npmjs.org/',
+112 verbose url resolving   './tincan-validator/-/tincan-validator-0.0.0.tgz/-rev/7-4a033a72501720d2514a9938203c0c7a' ]
+113 verbose url resolved https://registry.npmjs.org/tincan-validator/-/tincan-validator-0.0.0.tgz/-rev/7-4a033a72501720d2514a9938203c0c7a
+114 info trying registry request attempt 1 at 18:50:21
+115 http PUT https://registry.npmjs.org/tincan-validator/-/tincan-validator-0.0.0.tgz/-rev/7-4a033a72501720d2514a9938203c0c7a
+116 http 201 https://registry.npmjs.org/tincan-validator/-/tincan-validator-0.0.0.tgz/-rev/7-4a033a72501720d2514a9938203c0c7a
+117 verbose publish attached [ 'tincan-validator',
+117 verbose publish   'C:\\Users\\Phil\\AppData\\Roaming\\npm-cache\\tincan-validator\\0.0.0\\package.tgz',
+117 verbose publish   'tincan-validator-0.0.0.tgz' ]
+118 verbose url raw tincan-validator/0.0.0/-tag/latest
+119 verbose url resolving [ 'https://registry.npmjs.org/',
+119 verbose url resolving   './tincan-validator/0.0.0/-tag/latest' ]
+120 verbose url resolved https://registry.npmjs.org/tincan-validator/0.0.0/-tag/latest
+121 info trying registry request attempt 1 at 18:50:21
+122 http PUT https://registry.npmjs.org/tincan-validator/0.0.0/-tag/latest
+123 http 403 https://registry.npmjs.org/tincan-validator/0.0.0/-tag/latest
+124 info trying registry request attempt 1 at 18:50:23
+125 http PUT https://registry.npmjs.org/tincan-validator/0.0.0/-tag/latest
+126 http 403 https://registry.npmjs.org/tincan-validator/0.0.0/-tag/latest
+127 error publish Error uploading package
+128 error Error: forbidden Cannot replace previously published version: 0.0.0: tincan-validator/0.0.0/-tag/latest
+128 error     at RegClient.<anonymous> (c:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:269:14)
+128 error     at Request.self.callback (c:\Program Files\nodejs\node_modules\npm\node_modules\request\index.js:142:22)
+128 error     at Request.EventEmitter.emit (events.js:98:17)
+128 error     at Request.<anonymous> (c:\Program Files\nodejs\node_modules\npm\node_modules\request\index.js:856:14)
+128 error     at Request.EventEmitter.emit (events.js:117:20)
+128 error     at IncomingMessage.<anonymous> (c:\Program Files\nodejs\node_modules\npm\node_modules\request\index.js:808:12)
+128 error     at IncomingMessage.EventEmitter.emit (events.js:117:20)
+128 error     at _stream_readable.js:895:16
+128 error     at process._tickCallback (node.js:415:13)
+129 error If you need help, you may report this log at:
+129 error     <http://github.com/isaacs/npm/issues>
+129 error or email it to:
+129 error     <npm-@googlegroups.com>
+130 error System Windows_NT 6.2.9200
+131 error command "c:\\Program Files\\nodejs\\node.exe" "c:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "publish"
+132 error cwd c:\Users\Phil\projects\2and2-lms-backend\node_modules\tincan-validator
+133 error node -v v0.10.5
+134 error npm -v 1.2.18
+135 verbose exit [ 1, true ]
