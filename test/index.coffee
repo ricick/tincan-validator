@@ -5,26 +5,35 @@ describe "validator", ->
   it "should exist", ->
     validator.should.not.equal null
 
-describe "validateStatement", ->
-
-  testValid = (mock, valid)->
-    console.log "testValid", mock, valid
-    statement = require mock
+testValid = (mock, method, valid)->
+  console.log "testValid", mock, valid
+  object = require mock
+  method object, (errors)->
     if valid
-      validator.validateStatement statement, (errors)->
-        if errors.length
-          console.log "errors.length", errors.length
-          for error in errors
-            console.log error
-        errors.length.should.equal 0
+      if errors.length
+        console.log "errors.length", errors.length
+        for error in errors
+          console.log error
+      errors.length.should.equal 0
     else
-      validator.validateStatement statement, (errors)->
-        errors.length.should.not.equal 0
+      errors.length.should.not.equal 0
 
-
+describe "validateStatement", ->
   it 'should return no errors for simple statement', ()->
-    testValid "./mocks/statement-valid-simple.json", true
+    testValid "./mocks/statement-valid-simple.json", validator.validateStatement, true
   it 'should return no errors for attempted statement', ()->
-    testValid "./mocks/statement-valid-attempted.json", true
+    testValid "./mocks/statement-valid-attempted.json", validator.validateStatement, true
   it 'should return no errors for long statement', ()->
-    testValid "./mocks/statement-valid-long.json", true
+    testValid "./mocks/statement-valid-long.json", validator.validateStatement, true
+
+describe "validateActivity", ->
+  it 'should return no errors for simple activity', ()->
+    testValid "./mocks/activity-valid-simple.json", validator.validateActivity, true
+
+describe "validateAgent", ->
+  it 'should return no errors for simple agent', ()->
+    testValid "./mocks/agent-valid-simple.json", validator.validateAgent, true
+
+describe "validateGroup", ->
+  it 'should return no errors for simple group', ()->
+    testValid "./mocks/group-valid-simple.json", validator.validateGroup, true
