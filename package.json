@@ -1,8 +1,8 @@
 {
   "name": "tincan-validator",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Validates tincan statements, activities, agents, and states",
-  "main": "index.js",
+  "main": "bin/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
